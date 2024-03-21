@@ -31,10 +31,32 @@ const mapStandard = (fnTransform, array) => {
  * @param {args: any} args The argument(s) to be passed to the map function.
  * @returns {(function(*): *)|Array} (function): The curried version of the map function if one argument is provided. (array): The result of directly applying the map function to the given array if two arguments are provided.
  */
-const Map               = (...args) => args.length === 1 ? mapCurried(args[0]) : mapStandard(...args)
+const Map = (...args) => args.length === 1 ? mapCurried(args[0]) : mapStandard(...args)
+const Filter = fnFilter => array => {
+    return array.reduce((acc, val) => {
+        return fnFilter(val) ? [...acc, val] : acc;
+    }, []);
+}
+const Slice = (start, end) => array => array.slice(start, end)
+
 const PromiseAllSettled = promises => Promise.allSettled(promises)
 const ConsoleLog        = text => console.log(text)
 const ReadFile          = (fs, encoding = 'utf8') => filePath => fs.readFile(filePath, encoding)
 const PathJoin          = (path, folderPath) => filename => path.join(folderPath, filename)
 
-export {Map, ConsoleLog, PromiseAllSettled, ReadFile, PathJoin}
+const splitCSVByBreakLines = text => text.split('\n')
+const splitCSVByFields     = text => text.split(',')
+const lengthGreaterThan    = number => array => array.length > number
+
+export {
+    Map,
+    Filter,
+    Slice,
+    ConsoleLog,
+    PromiseAllSettled,
+    ReadFile,
+    PathJoin,
+    splitCSVByBreakLines,
+    splitCSVByFields,
+    lengthGreaterThan
+}
