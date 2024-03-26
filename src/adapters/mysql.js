@@ -1,17 +1,15 @@
-import mysql from 'mysql2'
-
-const mysqlAdapter = () => {
+const mysqlAdapter = mysql => {
     const start = config =>
         mysql.createPool(
-            Object.assign({}, config.db, {
+            Object.assign({}, config, {
                 multipleStatements: true,
                 waitForConnections: true,
-                connectionLimit: 10,
-                queueLimit: 0, // unlimited queueing
-                idleTimeout: 120000 // idle connections timeout, in milliseconds, the default value 60000
+                connectionLimit   : 10,
+                queueLimit        : 0, // unlimited queueing
+                idleTimeout       : 120000 // idle connections timeout, in milliseconds, the default value 60000
             })
         )
-    const end = conn => conn.end()
+    const end   = conn => conn.end()
 
     const execute = (query, pool, params) => {
         return new Promise(function (resolve, reject) {
@@ -73,7 +71,7 @@ const mysqlAdapter = () => {
             })
         })
 
-    return { start, end, execute, beginTransaction, commit }
+    return {start, end, execute, beginTransaction, commit}
 }
 
-export default mysqlAdapter()
+export default mysqlAdapter
