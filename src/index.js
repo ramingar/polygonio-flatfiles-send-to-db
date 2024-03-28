@@ -34,7 +34,6 @@ fs
     .then(Flat(Infinity))
     .then(Map(insertDayAggs(adapter, conn, insertDayAggsQuery())))
     .then(PromiseAllSettled)
-    // .then(val => val)
     .then(Map(ConsoleLog))
     .catch(ConsoleLog)
     .finally(() => adapter.end(conn))
